@@ -19,7 +19,7 @@ https://github.com/matheusvilela/tb_alert_sense/commits/master
 Explaining what the changes do: Sense framework seems to use a LED called DualLed for notifications and battery status.
 
 Nexus One doesn't have this LED. The ones we have are "mNotificationLight" (trackball) and the battery light (one of
-"mBatteryLight" or "mAttentionLight", haven't tested this as there are easier ways to fix charging LED).
+"mBatteryLight").
       
 So, we must change the code where it uses "mDualLedLight" to yield notifications to use "mNotificationLight" instead:
 
@@ -43,3 +43,7 @@ After those change, you must compile your changes:
 You must then use 7zip in order to place the new classes.dex inside the services.jar.
 
 Done! If you did everything right, tb alert should work now! :)
+
+To fix the charging LED, refer to this commit:
+
+https://github.com/matheusvilela/tb_alert_sense/commit/b4d8986de78e19dde099b1e235aaa7d1aa4ec4f9
