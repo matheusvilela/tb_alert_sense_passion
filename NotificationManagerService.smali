@@ -2530,6 +2530,8 @@
     .line 1430
     iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mNotificationLight:Lcom/android/server/LightsService$Light;
 
+    const/4 v6, 0x0 # mode: LIGHT_FLASH_NONE - will dismiss lights
+
     invoke-virtual {v1, v3, v6, v3, v3}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
 
     goto/16 :goto_45
@@ -2542,10 +2544,31 @@
 
     invoke-static {v5, v1}, Landroid/util/Slog;->v(Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 1435
+    # get notification
+    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mLedNotification:Lcom/android/server/NotificationManagerService$NotificationRecord;
+    iget-object v6, v1, Lcom/android/server/NotificationManagerService$NotificationRecord;->notification:Landroid/app/Notification;
+
+    # get color, onMS and offMS of notification
+    iget v4, v6, Landroid/app/Notification;->ledARGB:I
+    iget v2, v6, Landroid/app/Notification;->ledOnMS:I
+    iget v3, v6, Landroid/app/Notification;->ledOffMS:I
+
+    # must use default properties?
+    iget v6, v6, Landroid/app/Notification;->defaults:I
+    and-int/lit8 v6, v6, 0x4
+    if-eqz v6, :cond_ndefault
+
+    # default properties
+    const/16 v4, 0xffff #color
+    const/4 v2, 0x7 #onMS - brightness
+    const/16 v3, 0xfa0 #offMS - period
+
+    :cond_ndefault
+
+    # get notification light
     iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mNotificationLight:Lcom/android/server/LightsService$Light;
 
-    const/4 v2, 0x5
+    const/4 v7, 0x1 #mode: LIGHT_FLASH_TIMED
 
     invoke-virtual {v1, v4, v7, v2, v3}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
 
