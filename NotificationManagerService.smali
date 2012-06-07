@@ -2526,14 +2526,9 @@
     invoke-static {v5, v1}, Landroid/util/Slog;->v(Ljava/lang/String;Ljava/lang/String;)I
 
     .line 1430
-    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mDualLedLight:Lcom/android/server/LightsService$Light;
+    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mNotificationLight:Lcom/android/server/LightsService$Light;
 
     invoke-virtual {v1, v3, v6, v3, v3}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
-
-    .line 1431
-    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mDualLedLight:Lcom/android/server/LightsService$Light;
-
-    invoke-virtual {v1, v4, v6, v3, v3}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
 
     goto/16 :goto_45
 
@@ -2545,13 +2540,8 @@
 
     invoke-static {v5, v1}, Landroid/util/Slog;->v(Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 1434
-    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mDualLedLight:Lcom/android/server/LightsService$Light;
-
-    invoke-virtual {v1, v3, v6, v3, v3}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
-
     .line 1435
-    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mDualLedLight:Lcom/android/server/LightsService$Light;
+    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mNotificationLight:Lcom/android/server/LightsService$Light;
 
     const/4 v2, 0x5
 
