@@ -2307,6 +2307,8 @@
 
     invoke-virtual {v1, v4, v7, v3, v3}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
 
+    goto :cond_e4
+
     .line 1438
     :goto_45
     return-void
@@ -2375,7 +2377,7 @@
 
     invoke-virtual {v1, v4, v7, v3, v3}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
 
-    goto :goto_45
+    goto :cond_e4
 
     .line 1400
     :cond_86
@@ -2404,7 +2406,7 @@
 
     invoke-virtual {v1, v4, v6, v3, v3}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
 
-    goto :goto_45
+    goto :cond_e4
 
     .line 1404
     :cond_a0
@@ -2434,7 +2436,7 @@
 
     invoke-virtual {v1, v4, v6, v3, v3}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
 
-    goto :goto_45
+    goto :cond_e4
 
     .line 1409
     :cond_ba
@@ -2459,7 +2461,7 @@
 
     invoke-virtual {v1, v4, v3, v3, v3}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
 
-    goto/16 :goto_45
+    goto/16 :cond_e4
 
     .line 1414
     :cond_d1
@@ -2479,7 +2481,7 @@
 
     invoke-virtual {v1, v4, v6, v3, v3}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
 
-    goto/16 :goto_45
+    goto/16 :cond_e4
 
     .line 1420
     :cond_e4
