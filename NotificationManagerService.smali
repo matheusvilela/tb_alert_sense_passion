@@ -2396,15 +2396,16 @@
 
     invoke-static {v5, v1}, Landroid/util/Slog;->v(Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 1402
-    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mDualLedLight:Lcom/android/server/LightsService$Light;
-
-    invoke-virtual {v1, v3, v7, v3, v3}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
-
-    .line 1403
-    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mDualLedLight:Lcom/android/server/LightsService$Light;
-
-    invoke-virtual {v1, v4, v6, v3, v3}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
+    # Blink low battery
+    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mBatteryLight:Lcom/android/server/LightsService$Light;
+    const v2, -0x10000 # battery low charging color
+    const/4 v4, 0x1
+    const/16 v3, 0x7d
+    const/16 v5, 0xb3b
+    invoke-virtual {v1, v2, v4, v3, v5}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
+    # restore values
+    const/4 v3, 0x0
+    const-string v5, "NotificationService"
 
     goto :cond_e4
 
@@ -2412,7 +2413,7 @@
     :cond_a0
     iget-boolean v1, p0, Lcom/android/server/NotificationManagerService;->mBatteryCharging:Z
 
-    if-eqz v1, :cond_e4
+    if-eqz v1, :cond_dismiss_led
 
     .line 1405
     iget-boolean v1, p0, Lcom/android/server/NotificationManagerService;->mBatteryLow:Z
@@ -2426,15 +2427,9 @@
 
     invoke-static {v5, v1}, Landroid/util/Slog;->v(Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 1407
-    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mDualLedLight:Lcom/android/server/LightsService$Light;
-
-    invoke-virtual {v1, v3, v3, v3, v3}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
-
-    .line 1408
-    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mDualLedLight:Lcom/android/server/LightsService$Light;
-
-    invoke-virtual {v1, v4, v6, v3, v3}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
+    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mBatteryLight:Lcom/android/server/LightsService$Light;
+    const v2, -0x10000 # battery low charging color
+    invoke-virtual {v1, v2}, Lcom/android/server/LightsService$Light;->setColor(I)V
 
     goto :cond_e4
 
@@ -2451,17 +2446,11 @@
 
     invoke-static {v5, v1}, Landroid/util/Slog;->v(Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 1411
-    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mDualLedLight:Lcom/android/server/LightsService$Light;
+    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mBatteryLight:Lcom/android/server/LightsService$Light;
+    const v2, -0xff0100 # full charging color
+    invoke-virtual {v1, v2}, Lcom/android/server/LightsService$Light;->setColor(I)V
 
-    invoke-virtual {v1, v3, v6, v3, v3}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
-
-    .line 1412
-    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mDualLedLight:Lcom/android/server/LightsService$Light;
-
-    invoke-virtual {v1, v4, v3, v3, v3}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
-
-    goto/16 :cond_e4
+    goto :cond_e4
 
     .line 1414
     :cond_d1
@@ -2471,17 +2460,17 @@
 
     invoke-static {v5, v1}, Landroid/util/Slog;->v(Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 1415
-    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mDualLedLight:Lcom/android/server/LightsService$Light;
+    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mBatteryLight:Lcom/android/server/LightsService$Light;
+    const v2, -0x100 # charging color
+    invoke-virtual {v1, v2}, Lcom/android/server/LightsService$Light;->setColor(I)V
 
-    invoke-virtual {v1, v3, v3, v3, v3}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
+    goto :cond_e4
 
-    .line 1416
-    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mDualLedLight:Lcom/android/server/LightsService$Light;
+    :cond_dismiss_led
 
-    invoke-virtual {v1, v4, v6, v3, v3}, Lcom/android/server/LightsService$Light;->setFlashing(IIII)V
-
-    goto/16 :cond_e4
+    # turn led off if not charging
+    iget-object v1, p0, Lcom/android/server/NotificationManagerService;->mBatteryLight:Lcom/android/server/LightsService$Light;
+    invoke-virtual {v1}, Lcom/android/server/LightsService$Light;->turnOff()V
 
     .line 1420
     :cond_e4
